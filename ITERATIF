@@ -1,0 +1,82 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+// Fungsi untuk melakukan pengurutan menggunakan metode Insertion Sort Iteratif
+func insertionSortIterative(arr []int) []int {
+	start := time.Now()
+	// Melakukan pengurutan array dengan algoritma Insertion Sort
+	for i := 1; i < len(arr); i++ {
+		key := arr[i]
+		j := i - 1
+		// Memindahkan elemen yang lebih besar dari key ke posisi yang lebih kanan
+		for j >= 0 && arr[j] > key {
+			arr[j+1] = arr[j]
+			j--
+		}
+		// Menempatkan key di posisi yang benar
+		arr[j+1] = key
+	}
+	elapsed := time.Since(start)
+	// Menampilkan waktu eksekusi algoritma
+	fmt.Printf("Waktu eksekusi Iteratif: %v\n", elapsed)
+	return arr
+}
+
+// Fungsi untuk menemukan nilai minimum dan maksimum secara iteratif
+func findMinMaxIterative(arr []int) (int, int) {
+	min, max := arr[0], arr[0]
+	for i := 1; i < len(arr); i++ {
+		if arr[i] < min {
+			min = arr[i]
+		}
+		if arr[i] > max {
+			max = arr[i]
+		}
+	}
+	return min, max
+}
+
+func main() {
+	// Menggunakan metode iteratif untuk pengurutan dan pencarian min dan max
+	for {
+		var n int
+		fmt.Print("Masukkan jumlah elemen: ")
+		_, err := fmt.Scan(&n)
+		if err != nil || n <= 0 {
+			fmt.Println("Input tidak valid. Harap masukkan angka positif.")
+			continue
+		}
+
+		arr := make([]int, n)
+		fmt.Println("Masukkan elemen array:")
+
+		// Meminta input untuk elemen array dan memastikan input adalah angka
+		for i := 0; i < n; i++ {
+			var element int
+			_, err := fmt.Scan(&element)
+			if err != nil {
+				// Jika input tidak valid, meminta ulang input
+				fmt.Println("Input tidak valid. Pastikan Anda hanya memasukkan angka.")
+				i-- // Mengulang input untuk elemen yang salah
+				continue
+			}
+			arr[i] = element
+		}
+
+		// Menampilkan array sebelum diurutkan
+		fmt.Println("Array sebelum diurutkan:", arr)
+
+		// Mengurutkan array secara iteratif
+		sortedArrIterative := insertionSortIterative(arr)
+		fmt.Println("Array setelah diurutkan (Iteratif):", sortedArrIterative)
+
+		// Menemukan nilai min dan max secara iteratif
+		minIterative, maxIterative := findMinMaxIterative(arr)
+		fmt.Printf("Nilai minimum: %d, Nilai maksimum: %d\n", minIterative, maxIterative)
+		fmt.Printf("Jumlah min: %d\n", minIterative+maxIterative)
+	}
+}
